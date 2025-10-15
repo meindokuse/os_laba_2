@@ -3,7 +3,6 @@
 #include <chrono>
 #include <algorithm>
 
-// Функция для измерения времени std::sort
 double measure_std_sort_time(std::vector<int> arr) {
     auto start = std::chrono::high_resolution_clock::now();
     std::sort(arr.begin(), arr.end()); 
@@ -11,9 +10,8 @@ double measure_std_sort_time(std::vector<int> arr) {
     return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
 
-// 🔥 Функция для измерения времени НАШЕЙ последовательной сортировки
 double measure_our_sequential_time(std::vector<int> arr) {
-    ParallelQuickSort sorter(1); // 1 поток = последовательная версия
+    ParallelQuickSort sorter(1); 
     auto start = std::chrono::high_resolution_clock::now();
     sorter.sort(arr);
     auto end = std::chrono::high_resolution_clock::now();
@@ -30,7 +28,7 @@ int main(int argc, char* argv[]) {
     
     std::vector<int> arr = ParallelQuickSort::generate_random_array(array_size);
     std::vector<int> arr_copy = arr;
-    std::vector<int> arr_copy2 = arr; // 🔥 для нашей последовательной версии
+    std::vector<int> arr_copy2 = arr; 
     
     std::cout << "\n--- Последовательная сортировка (std::sort) ---" << std::endl;
     double seq_time_std = measure_std_sort_time(arr_copy);
@@ -52,7 +50,6 @@ int main(int argc, char* argv[]) {
     bool is_sorted = std::is_sorted(arr.begin(), arr.end());
     std::cout << "Массив " << (is_sorted ? "отсортирован корректно" : "НЕ отсортирован") << std::endl;
     
-    // 🔥 Сравниваем с нашей последовательной версией
     double speedup = (parallel_time > 0) ? seq_time_our / parallel_time : 0;
     double efficiency = (thread_count > 0) ? (speedup / thread_count) * 100 : 0;
     
@@ -63,7 +60,6 @@ int main(int argc, char* argv[]) {
     std::cout << "Ускорение: " << speedup << "x" << std::endl;
     std::cout << "Эффективность: " << efficiency << "%" << std::endl;
 
-    // 🔥 ВЫВОДИМ МАССИВЫ
     std::cout << "\n--- Проверка ---" << std::endl;
     sorter.print_array();
     
